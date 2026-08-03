@@ -1,0 +1,1573 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>مكسيكاني ملاذ | Mexicana Maladh</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@500;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-site: #F4F4F6;
+            --bg-card: rgba(255, 255, 255, 0.78);
+            --bg-modal: rgba(255, 255, 255, 0.90);
+            --text-main: #0F0F12;
+            --text-muted: #6E6E73;
+            
+            --mex-black: #161618;
+            --mex-yellow: #FFB800;
+            --mex-orange: #FF5722;
+            --mex-orange-glow: rgba(255, 87, 34, 0.35);
+            
+            --glass-border: rgba(255, 255, 255, 0.65);
+            --glass-border-dark: rgba(0, 0, 0, 0.08);
+            --glass-blur: blur(30px) saturate(210%);
+            --radius-island: 35px;
+            --radius-card: 24px;
+            
+            --ease-apple: cubic-bezier(0.16, 1, 0.3, 1);
+            --transition-fluid: all 0.4s var(--ease-apple);
+        }
+
+        [data-theme="dark"] {
+            --bg-site: #0A0A0C;
+            --bg-card: rgba(26, 26, 30, 0.78);
+            --bg-modal: rgba(20, 20, 24, 0.92);
+            --text-main: #F5F5F7;
+            --text-muted: #8E8E93;
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --glass-border-dark: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0; padding: 0;
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'Cairo', 'Tajawal', -apple-system, BlinkMacSystemFont, sans-serif;
+            touch-action: manipulation;
+        }
+
+        body {
+            background-color: var(--bg-site);
+            color: var(--text-main);
+            min-height: 100dvh;
+            overflow-x: hidden;
+            padding-top: calc(78px + env(safe-area-inset-top, 0px));
+            padding-bottom: calc(30px + env(safe-area-inset-bottom, 0px));
+            transition: background-color 0.4s ease;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        header.dynamic-island-header {
+            position: fixed;
+            top: calc(12px + env(safe-area-inset-top, 0px));
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 24px);
+            max-width: 520px;
+            height: 62px;
+            background: var(--bg-card);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-island);
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.08);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            transition: var(--transition-fluid);
+        }
+
+        .header-btn {
+            background: rgba(0,0,0,0.04);
+            border: 1px solid var(--glass-border-dark);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--text-main);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: var(--transition-fluid);
+        }
+
+        [data-theme="dark"] .header-btn { background: rgba(255,255,255,0.08); }
+        .header-btn:active { transform: scale(0.92); }
+
+        .brand-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 900;
+            font-size: 17px;
+            color: var(--mex-black);
+            letter-spacing: -0.3px;
+        }
+
+        [data-theme="dark"] .brand-badge { color: var(--mex-yellow); }
+
+        .brand-badge span.dot {
+            width: 9px; height: 9px;
+            background: var(--mex-orange);
+            border-radius: 50%;
+            box-shadow: 0 0 12px var(--mex-orange);
+            animation: pulseDot 1.5s infinite;
+        }
+
+        .cart-count-badge {
+            background: linear-gradient(135deg, var(--mex-orange), #FF2A00);
+            color: white;
+            font-size: 11px;
+            width: 22px; height: 22px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 900;
+            box-shadow: 0 4px 10px var(--mex-orange-glow);
+            transition: transform 0.3s var(--ease-apple);
+        }
+
+        .cart-count-badge.bounce {
+            animation: badgeBounce 0.45s var(--ease-apple);
+        }
+
+        @keyframes badgeBounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.4) rotate(10deg); }
+        }
+
+        .controls-wrapper { display: flex; align-items: center; gap: 6px; }
+
+        .fantasy-mini-slider {
+            width: calc(100% - 24px);
+            max-width: 520px;
+            margin: 8px auto 22px auto;
+            height: 165px;
+            position: relative;
+            border-radius: 32px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #121215 0%, #2D1A0A 100%);
+            box-shadow: 0 20px 40px rgba(255, 87, 34, 0.18);
+            border: 1px solid rgba(255, 184, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            color: white;
+        }
+
+        .slider-content h2 {
+            font-size: 21px;
+            font-weight: 900;
+            color: var(--mex-yellow);
+            margin-bottom: 4px;
+            line-height: 1.25;
+        }
+
+        .slider-content p {
+            font-size: 12px;
+            color: #E2E2E8;
+            max-width: 200px;
+            line-height: 1.4;
+        }
+
+        .slider-tag {
+            display: inline-block;
+            background: rgba(255, 87, 34, 0.25);
+            color: #FF7D54;
+            border: 1px solid rgba(255, 87, 34, 0.4);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 900;
+            margin-bottom: 8px;
+            backdrop-filter: blur(8px);
+        }
+
+        .slider-img {
+            width: 115px;
+            height: 115px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid var(--mex-yellow);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            animation: floatImg 4s ease-in-out infinite;
+        }
+
+        @keyframes floatImg {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-7px) rotate(3deg); }
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            width: calc(100% - 24px);
+            max-width: 520px;
+            margin: 0 auto 25px auto;
+        }
+
+        .category-card {
+            background: var(--bg-card);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-card);
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition-fluid);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+        }
+
+        .category-card:active {
+            transform: scale(0.95);
+            border-color: var(--mex-orange);
+        }
+
+        .category-img-wrapper {
+            width: 100%;
+            height: 120px;
+            border-radius: 18px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .category-img-wrapper img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s var(--ease-apple);
+        }
+
+        .category-card:hover .category-img-wrapper img {
+            transform: scale(1.08);
+        }
+
+        .category-card h3 {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 3px;
+        }
+
+        .category-card span.price-from {
+            font-size: 13px;
+            color: var(--mex-orange);
+            font-weight: 900;
+        }
+
+        .liquid-water-btn {
+            position: relative;
+            padding: 16px 24px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            background: linear-gradient(135deg, var(--mex-yellow) 0%, var(--mex-orange) 100%);
+            color: #FFFFFF !important;
+            font-size: 15px;
+            font-weight: 900;
+            cursor: pointer;
+            outline: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 12px 28px var(--mex-orange-glow), inset 0 2px 4px rgba(255, 255, 255, 0.6);
+            transition: var(--transition-fluid);
+            width: 100%;
+            margin-top: 18px;
+        }
+
+        .liquid-water-btn:active {
+            transform: scale(0.96);
+            box-shadow: 0 6px 15px var(--mex-orange-glow);
+        }
+
+        .glass-modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100dvh;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s var(--ease-apple);
+            padding: 14px;
+        }
+
+        .glass-modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .glass-modal-card {
+            width: 100%;
+            max-width: 480px;
+            max-height: 86dvh;
+            background: var(--bg-modal);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border-radius: 36px;
+            border: 1px solid var(--glass-border);
+            padding: 24px;
+            overflow-y: auto;
+            box-shadow: 0 35px 70px rgba(0,0,0,0.25), inset 0 1px 2px rgba(255,255,255,0.4);
+            overscroll-behavior: contain;
+            transform: scale(0.88) translateY(40px);
+            opacity: 0;
+            transition: var(--transition-fluid);
+        }
+
+        .glass-modal-overlay.active .glass-modal-card {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--glass-border-dark);
+        }
+
+        .modal-header h3 { font-size: 19px; font-weight: 900; letter-spacing: -0.2px; }
+
+        .close-modal-btn {
+            background: rgba(0,0,0,0.06);
+            border: 1px solid var(--glass-border-dark);
+            width: 34px; height: 34px;
+            border-radius: 50%;
+            font-size: 14px;
+            font-weight: 800;
+            cursor: pointer;
+            color: var(--text-main);
+            display: flex; align-items: center; justify-content: center;
+            transition: var(--transition-fluid);
+        }
+
+        [data-theme="dark"] .close-modal-btn { background: rgba(255,255,255,0.1); }
+        .close-modal-btn:active { transform: scale(0.85); }
+
+        .size-selector-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 10px 0 20px 0;
+        }
+
+        .size-option-btn {
+            background: rgba(0,0,0,0.03);
+            border: 1.5px solid var(--glass-border-dark);
+            border-radius: 20px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition-fluid);
+        }
+
+        [data-theme="dark"] .size-option-btn { background: rgba(255,255,255,0.04); }
+
+        .size-option-btn.selected {
+            border-color: var(--mex-orange);
+            background: rgba(255, 87, 34, 0.1);
+            box-shadow: 0 6px 20px var(--mex-orange-glow);
+        }
+
+        .size-option-btn h4 { font-size: 13px; font-weight: 800; margin-bottom: 3px; }
+        .size-option-btn span { font-size: 13px; color: var(--mex-orange); font-weight: 900; }
+
+        .addons-section {
+            background: rgba(0,0,0,0.025);
+            border: 1px solid var(--glass-border-dark);
+            border-radius: 24px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        [data-theme="dark"] .addons-section { background: rgba(255,255,255,0.025); }
+
+        .addons-section h4.section-title {
+            font-size: 14px;
+            font-weight: 900;
+            margin-bottom: 12px;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Elegant Add-on Capsules (Customer interactive selection) */
+        .addons-capsules-grid {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .addon-chip {
+            flex: 1;
+            min-width: 95px;
+            padding: 12px 10px;
+            background: var(--bg-card);
+            border: 1.5px solid var(--glass-border-dark);
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 800;
+            text-align: center;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            transition: var(--transition-fluid);
+            color: var(--text-main);
+        }
+
+        .addon-chip:active { transform: scale(0.94); }
+
+        .addon-chip.selected {
+            background: rgba(255, 87, 34, 0.12);
+            border-color: var(--mex-orange);
+            color: var(--mex-orange);
+            box-shadow: 0 6px 18px var(--mex-orange-glow);
+        }
+
+        .free-badge {
+            background: rgba(16, 185, 129, 0.14);
+            color: #10B981;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 10.5px;
+            font-weight: 800;
+        }
+
+        .addon-chip.selected .free-badge {
+            background: rgba(255, 87, 34, 0.2);
+            color: var(--mex-orange);
+        }
+
+        .drinks-scroll-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 4px 0 6px 0;
+            position: relative;
+        }
+
+        .drink-apple-card {
+            flex: 0 0 calc(33.33% - 7px);
+            min-width: 85px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px 6px;
+            background: var(--bg-card);
+            border: 1.5px solid var(--glass-border-dark);
+            border-radius: 22px;
+            cursor: pointer;
+            transition: var(--transition-fluid);
+        }
+
+        .drink-apple-card:active { transform: scale(0.92); }
+
+        .drink-apple-card.selected {
+            border-color: var(--mex-orange);
+            background: rgba(255, 87, 34, 0.1);
+            box-shadow: 0 8px 20px var(--mex-orange-glow);
+        }
+
+        .drink-img-circle {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-bottom: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            background: #fff;
+        }
+
+        .drink-img-circle img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+        }
+
+        .drink-apple-card span.drink-title {
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--text-main);
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .fanta-flavors-wrapper {
+            width: 100%;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            display: flex;
+            gap: 8px;
+            background: rgba(255, 184, 0, 0.08);
+            border-radius: 16px;
+            border: 1px solid transparent;
+            transition: max-height 0.4s var(--ease-apple), opacity 0.3s ease, margin-top 0.3s ease, padding 0.3s ease;
+        }
+
+        .fanta-flavors-wrapper.active {
+            max-height: 75px;
+            opacity: 1;
+            margin-top: 8px;
+            padding: 10px;
+            border-color: rgba(255, 184, 0, 0.35);
+        }
+
+        .flavor-chip {
+            flex: 1;
+            padding: 10px 6px;
+            border-radius: 14px;
+            background: var(--bg-card);
+            font-size: 11.5px;
+            text-align: center;
+            font-weight: 800;
+            cursor: pointer;
+            border: 1px solid var(--glass-border-dark);
+            transition: var(--transition-fluid);
+        }
+
+        .flavor-chip.selected {
+            background: var(--mex-yellow);
+            color: #121212;
+            border-color: var(--mex-yellow);
+            box-shadow: 0 4px 12px rgba(255, 184, 0, 0.4);
+        }
+
+        .extra-drinks-section {
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px dashed var(--glass-border-dark);
+        }
+
+        .extra-drink-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 14px;
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border-dark);
+            border-radius: 18px;
+        }
+
+        .counter-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border-dark);
+            border-radius: 20px;
+            margin-top: 12px;
+        }
+
+        .counter-btn-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .cnt-btn {
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            border: none;
+            background: var(--mex-black);
+            color: white;
+            font-size: 16px;
+            font-weight: 900;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: var(--transition-fluid);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        [data-theme="dark"] .cnt-btn { background: var(--mex-yellow); color: black; }
+        .cnt-btn:active { transform: scale(0.82); }
+
+        .price-anim-pop {
+            display: inline-block;
+            transition: transform 0.25s var(--ease-apple);
+        }
+
+        .price-anim-pop.pop {
+            animation: pricePop 0.3s var(--ease-apple);
+        }
+
+        @keyframes pricePop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.25); color: var(--mex-yellow); }
+            100% { transform: scale(1); }
+        }
+
+        .flying-product-img {
+            position: fixed;
+            z-index: 99999;
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            object-fit: cover;
+            pointer-events: none;
+            box-shadow: 0 15px 35px rgba(255, 87, 34, 0.45);
+            border: 3px solid #FFF;
+            transition: all 0.85s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        footer.smart-footer {
+            width: calc(100% - 24px);
+            max-width: 520px;
+            margin: 30px auto 10px auto;
+            background: var(--bg-card);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-island);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .status-badge-container {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 800;
+            margin-top: 10px;
+        }
+
+        .status-badge-container.open {
+            background: rgba(16, 185, 129, 0.12);
+            color: #10B981;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .status-badge-container.closed {
+            background: rgba(239, 68, 68, 0.12);
+            color: #EF4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .status-dot-pulse {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+            box-shadow: 0 0 8px currentColor;
+            animation: pulseDot 1.2s infinite;
+        }
+
+        @keyframes pulseDot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(0.7); }
+        }
+
+        .side-drawer-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100dvh;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(12px);
+            z-index: 10001;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .side-drawer-overlay.active { opacity: 1; pointer-events: auto; }
+
+        .side-drawer {
+            position: fixed;
+            top: 0; right: 0;
+            width: 290px; height: 100dvh;
+            background: var(--bg-site);
+            z-index: 10002;
+            padding: 25px 20px;
+            transform: translateX(100%);
+            transition: transform 0.35s var(--ease-apple);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .side-drawer-overlay.active .side-drawer { transform: translateX(0); }
+
+        .drawer-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 10px;
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--text-main);
+            text-decoration: none;
+            border-bottom: 1px solid var(--glass-border-dark);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 13px 16px;
+            border-radius: 16px;
+            border: 1px solid var(--glass-border-dark);
+            background: rgba(0,0,0,0.02);
+            color: var(--text-main);
+            font-size: 16px;
+            margin-bottom: 10px;
+            outline: none;
+        }
+
+        .cart-item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--glass-border-dark);
+        }
+
+        .cart-capsules-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .cart-capsule {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 800;
+            background: rgba(0,0,0,0.04);
+            border: 1px solid var(--glass-border-dark);
+            color: var(--text-main);
+        }
+
+        [data-theme="dark"] .cart-capsule {
+            background: rgba(255,255,255,0.06);
+        }
+
+        .cart-capsule.size-capsule {
+            background: rgba(255, 87, 34, 0.12);
+            color: var(--mex-orange);
+            border-color: rgba(255, 87, 34, 0.3);
+        }
+
+        .cart-capsule.addon-capsule {
+            background: rgba(16, 185, 129, 0.12);
+            color: #10B981;
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .order-type-tabs {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .order-type-btn {
+            padding: 12px;
+            border-radius: 16px;
+            border: 1.5px solid var(--glass-border-dark);
+            background: var(--bg-card);
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            text-align: center;
+            transition: var(--transition-fluid);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .order-type-btn.selected {
+            border-color: var(--mex-orange);
+            background: rgba(255, 87, 34, 0.1);
+            color: var(--mex-orange);
+            box-shadow: 0 4px 15px var(--mex-orange-glow);
+        }
+
+        .pulsing-tab-svg {
+            animation: pulseSvg 2s infinite ease-in-out;
+            color: var(--mex-orange);
+            filter: drop-shadow(0 0 6px var(--mex-orange-glow));
+        }
+
+        @keyframes pulseSvg {
+            0%, 100% { transform: scale(1); opacity: 1; filter: drop-shadow(0 0 6px var(--mex-orange-glow)); }
+            50% { transform: scale(1.18); opacity: 0.85; filter: drop-shadow(0 0 14px var(--mex-yellow)); }
+        }
+
+        .arrival-capsules-grid {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .arrival-capsule {
+            flex: 1;
+            min-width: 105px;
+            padding: 10px 10px;
+            background: var(--bg-card);
+            border: 1.5px solid var(--glass-border-dark);
+            border-radius: 20px;
+            font-size: 11.5px;
+            font-weight: 800;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition-fluid);
+            backdrop-filter: blur(10px);
+            color: var(--text-main);
+        }
+
+        .arrival-capsule:active { transform: scale(0.94); }
+
+        .arrival-capsule.selected {
+            background: linear-gradient(135deg, var(--mex-yellow), var(--mex-orange));
+            color: #FFFFFF;
+            border-color: var(--mex-orange);
+            box-shadow: 0 6px 18px var(--mex-orange-glow);
+            transform: scale(1.02);
+        }
+
+        .elegant-note-banner {
+            background: linear-gradient(135deg, rgba(255, 184, 0, 0.15), rgba(255, 87, 34, 0.15));
+            border: 1px solid rgba(255, 184, 0, 0.4);
+            border-radius: 18px;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(255, 184, 0, 0.1);
+        }
+
+        .elegant-note-banner span {
+            font-size: 12.5px;
+            font-weight: 900;
+            color: var(--mex-orange);
+            line-height: 1.4;
+            display: block;
+        }
+
+        .waze-btn-group {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="dynamic-island-header">
+        <button class="header-btn" onclick="toggleSideMenu()">
+            <span>القائمة</span>
+        </button>
+
+        <div class="brand-badge">
+            <span class="dot"></span>
+            <span>مكسيكاني ملاذ</span>
+        </div>
+
+        <div class="controls-wrapper">
+            <button class="header-btn" onclick="toggleTheme()" id="btn-theme">الوضع</button>
+            <button class="header-btn" onclick="openCartModal()" id="header-cart-btn">
+                <span>السلة</span>
+                <span class="cart-count-badge" id="cart-counter">0</span>
+            </button>
+        </div>
+    </header>
+
+    <div class="side-drawer-overlay" id="side-drawer-overlay" onclick="toggleSideMenu()">
+        <div class="side-drawer" onclick="event.stopPropagation()">
+            <div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 25px;">
+                    <div class="brand-badge" style="font-size: 18px;">
+                        <span class="dot"></span>
+                        <span>مكسيكاني ملاذ</span>
+                    </div>
+                    <button class="close-modal-btn" onclick="toggleSideMenu()">✕</button>
+                </div>
+
+                <a href="#" class="drawer-nav-item" onclick="toggleSideMenu()">قائمة التورتيا</a>
+                <a href="#footer-section" class="drawer-nav-item" onclick="toggleSideMenu()">ساعات العمل</a>
+                <a href="https://waze.com/ul?navigate=yes" target="_blank" class="drawer-nav-item" onclick="openWazeDirect(event)">موقع المحل الويز</a>
+                <a href="tel:0504681288" class="drawer-nav-item">اتصل بنا مباشر</a>
+            </div>
+
+            <div style="font-size: 12px; color: var(--text-muted); text-align: center;">
+                2026 مكسيكاني ملاذ - الطعم المكسيكي الأصيل
+            </div>
+        </div>
+    </div>
+
+    <section class="fantasy-mini-slider">
+        <div class="slider-content">
+            <span class="slider-tag">الطعم المكسيكي الأصيل</span>
+            <h2>تورتيا جبارة بالطعم والغرام</h2>
+            <p>أجود أنواع اللحوم الطازجة تلتف بحب في خبز التورتيا الذهبي.</p>
+        </div>
+        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=400&auto=format&fit=crop&q=80" alt="تورتيا ملاذ" class="slider-img">
+    </section>
+
+    <section class="categories-grid">
+        <div class="category-card" onclick="openProductModal('تورتيا انتريكوت', 'https://images.unsplash.com/photo-1544025162-d76694265947?w=500&auto=format&fit=crop&q=80')">
+            <div class="category-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=500&auto=format&fit=crop&q=80" alt="انتريكوت">
+            </div>
+            <h3>تورتيا انتريكوت</h3>
+            <span class="price-from">45 ₪</span>
+        </div>
+
+        <div class="category-card" onclick="openProductModal('تورتيا صدر دجاج', 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=500&auto=format&fit=crop&q=80')">
+            <div class="category-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=500&auto=format&fit=crop&q=80" alt="صدر دجاج">
+            </div>
+            <h3>تورتيا صدر دجاج</h3>
+            <span class="price-from">45 ₪</span>
+        </div>
+
+        <div class="category-card" onclick="openProductModal('تورتيا لحمة مطحونة', 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=500&auto=format&fit=crop&q=80')">
+            <div class="category-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=500&auto=format&fit=crop&q=80" alt="لحمة مطحونة">
+            </div>
+            <h3>تورتيا لحمة مطحونة</h3>
+            <span class="price-from">45 ₪</span>
+        </div>
+
+        <div class="category-card" onclick="openProductModal('تورتيا برجيت', 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500&auto=format&fit=crop&q=80')">
+            <div class="category-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500&auto=format&fit=crop&q=80" alt="برجيت">
+            </div>
+            <h3>تورتيا برجيت</h3>
+            <span class="price-from">45 ₪</span>
+        </div>
+    </section>
+
+    <footer class="smart-footer" id="footer-section">
+        <h4>ساعات الدوام والخدمة</h4>
+        <p style="font-size: 12px; margin-top: 4px; color: var(--text-muted);">يومياً من الساعة 12:00 ظهراً حتى 00:00 منتصف الليل</p>
+        <div id="restaurant-status-badge" class="status-badge-container open">
+            <span class="status-dot-pulse"></span>
+            <span>مفتوح الان</span>
+        </div>
+    </footer>
+
+    <div class="glass-modal-overlay" id="modal-product">
+        <div class="glass-modal-card">
+            <div class="modal-header">
+                <h3 id="modal-product-title">تخصيص التورتيا</h3>
+                <button class="close-modal-btn" onclick="closeModal('modal-product')">✕</button>
+            </div>
+
+            <!-- Requested Note -->
+            <div class="elegant-note-banner">
+                <span>ملاحظة: الكولا مع الشيبس ضمن الوجبة</span>
+            </div>
+
+            <label style="font-size: 13px; font-weight: 800;">اختر الحجم المناسب:</label>
+            <div class="size-selector-grid">
+                <div class="size-option-btn selected" id="size-normal" onclick="selectSize('عادي', 45, 'normal')">
+                    <h4>عادي</h4>
+                    <span>45 ₪</span>
+                </div>
+                <div class="size-option-btn" id="size-kfool" onclick="selectSize('كفول', 55, 'kfool')">
+                    <h4>كفول</h4>
+                    <span>55 ₪</span>
+                </div>
+                <div class="size-option-btn" id="size-mshulash" onclick="selectSize('مشولاش', 65, 'mshulash')">
+                    <h4>مشولاش</h4>
+                    <span>65 ₪</span>
+                </div>
+                <div class="size-option-btn" id="size-mrouba" onclick="selectSize('مروباع', 70, 'mrouba')">
+                    <h4>مروباع</h4>
+                    <span>70 ₪</span>
+                </div>
+            </div>
+
+            <!-- Add-ons in elegant capsules, customer chooses freely -->
+            <div class="addons-section">
+                <h4 class="section-title">الإضافات الأخرى (اختر ما تحب)</h4>
+                <div class="addons-capsules-grid">
+                    <div class="addon-chip" id="addon-chip-salad" onclick="toggleAddon('سلطة', this)">
+                        <span>🥗 السلطة</span>
+                        <span class="free-badge">مجاناً</span>
+                    </div>
+                    <div class="addon-chip" id="addon-chip-avocado" onclick="toggleAddon('أفوكادو', this)">
+                        <span>🥑 الأفوكادو</span>
+                        <span class="free-badge">مجاناً</span>
+                    </div>
+                    <div class="addon-chip" id="addon-chip-onion" onclick="toggleAddon('بصل', this)">
+                        <span>🧅 البصل</span>
+                        <span class="free-badge">مجاناً</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="addons-section">
+                <h4 class="section-title">المشروب المرفق بالوجبة</h4>
+                <div class="drinks-scroll-container">
+                    
+                    <div class="drink-apple-card selected" onclick="selectDrink('كوكاكولا', this)">
+                        <div class="drink-img-circle">
+                            <img src="https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=150&auto=format&fit=crop&q=80" alt="كوكاكولا">
+                        </div>
+                        <span class="drink-title">كوكاكولا</span>
+                    </div>
+
+                    <div class="drink-apple-card" onclick="selectDrink('صودا', this)">
+                        <div class="drink-img-circle">
+                            <img src="https://images.unsplash.com/photo-1527661591475-527312dd65f5?w=150&auto=format&fit=crop&q=80" alt="صودا">
+                        </div>
+                        <span class="drink-title">صودا</span>
+                    </div>
+
+                    <div class="drink-apple-card" onclick="selectDrink('سبرايت', this)">
+                        <div class="drink-img-circle">
+                            <img src="https://images.unsplash.com/photo-1625772299848-391b6a87d7b3?w=150&auto=format&fit=crop&q=80" alt="سبرايت">
+                        </div>
+                        <span class="drink-title">سبرايت</span>
+                    </div>
+
+                    <div class="drink-apple-card" onclick="selectDrink('فانتا', this)" id="btn-fanta-main">
+                        <div class="drink-img-circle">
+                            <img src="https://images.unsplash.com/photo-1624517452488-04869289c4ca?w=150&auto=format&fit=crop&q=80" alt="فانتا">
+                        </div>
+                        <span class="drink-title" id="fanta-lbl-text">فانتا</span>
+                    </div>
+
+                    <div class="drink-apple-card" onclick="selectDrink('كوكاكولا زيرو', this)">
+                        <div class="drink-img-circle">
+                            <img src="https://images.unsplash.com/photo-1554866585-cd94860890b7?w=150&auto=format&fit=crop&q=80" alt="كوكاكولا زيرو">
+                        </div>
+                        <span class="drink-title">كوكا زيرو</span>
+                    </div>
+
+                    <div class="drink-apple-card" onclick="selectDrink('ماء معدني', this)">
+                        <div class="drink-img-circle">
+                            <img src="https://images.unsplash.com/photo-1560023907-5f339617ea30?w=150&auto=format&fit=crop&q=80" alt="ماء">
+                        </div>
+                        <span class="drink-title">ماء معدني</span>
+                    </div>
+
+                    <div class="fanta-flavors-wrapper" id="fanta-flavors">
+                        <div class="flavor-chip selected" onclick="selectFantaFlavor('برتقال', this)">برتقال</div>
+                        <div class="flavor-chip" onclick="selectFantaFlavor('تفاح', this)">تفاح</div>
+                        <div class="flavor-chip" onclick="selectFantaFlavor('ليمون', this)">ليمون</div>
+                    </div>
+                </div>
+
+                <div class="extra-drinks-section">
+                    <div class="extra-drink-row">
+                        <span style="font-size: 13px; font-weight: 800;">إضافة <strong id="dynamic-extra-drink-name" style="color:var(--mex-orange);">كوكاكولا</strong> أخرى (+8 ₪)</span>
+                        <div class="counter-btn-group">
+                            <button class="cnt-btn" onclick="updateExtraDrink(-1)">-</button>
+                            <span id="extra-drink-qty" style="font-weight:900;">0</span>
+                            <button class="cnt-btn" onclick="updateExtraDrink(1)">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="addons-section">
+                <div class="addon-item" style="margin-bottom: 0; flex-direction: column; align-items: stretch; gap: 8px; border:none; background:transparent; padding:0;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: 13px; font-weight: 800;">الشيبس (البطاطا المقلية)</span>
+                        <div class="counter-btn-group">
+                            <button class="cnt-btn" onclick="updateChipsQty(-1)">-</button>
+                            <span id="chips-qty" style="font-weight:900;">1</span>
+                            <button class="cnt-btn" onclick="updateChipsQty(1)">+</button>
+                        </div>
+                    </div>
+                    <span style="font-size: 11px; color: var(--mex-orange); font-weight: 700;">الشيبس الأول مجاني، وكل زيادة بمقدار 1 شيكل</span>
+                </div>
+            </div>
+
+            <div class="counter-box">
+                <span style="font-size: 13px; font-weight: 800;">عدد الوجبات:</span>
+                <div class="counter-btn-group">
+                    <button class="cnt-btn" onclick="updateQuantity(-1)">-</button>
+                    <span id="product-qty" style="font-weight:900; font-size: 16px;">1</span>
+                    <button class="cnt-btn" onclick="updateQuantity(1)">+</button>
+                </div>
+            </div>
+
+            <button class="liquid-water-btn" id="btn-add-to-cart" onclick="addToCartWithFlyEffect(event)">
+                <span>إضافة إلى السلة</span> - 
+                <span class="price-anim-pop" id="modal-total-price">45 ₪</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="glass-modal-overlay" id="modal-cart">
+        <div class="glass-modal-card">
+            <div class="modal-header">
+                <h3>سلة الطلبات</h3>
+                <button class="close-modal-btn" onclick="closeModal('modal-cart')">✕</button>
+            </div>
+
+            <div class="order-type-tabs">
+                <div class="order-type-btn selected" id="tab-pickup" onclick="setOrderType('pickup')">
+                    <svg class="pulsing-tab-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                    <span>استلام من المحل</span>
+                </div>
+                <div class="order-type-btn" id="tab-delivery" onclick="setOrderType('delivery')">
+                    <svg class="pulsing-tab-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+                    <span>توصيل للبيت</span>
+                </div>
+            </div>
+
+            <div id="delivery-status-banner" style="margin-bottom: 12px; display: none;">
+                <div id="delivery-badge-el" class="status-badge-container closed" style="width: 100%; justify-content: center;">
+                    <span class="status-dot-pulse"></span>
+                    <span id="delivery-status-text">التوصيل غير متوفر حالياً</span>
+                </div>
+                <div style="font-size: 11px; color: var(--text-muted); text-align: center; margin-top: 6px;">
+                    وقت التوصيل الفعلي المتاح من الساعة 7:00 مساءً حتى 12:00 منتصف الليل
+                </div>
+            </div>
+
+            <div id="cart-items-list"></div>
+
+            <div style="margin-top: 15px; padding-top: 10px; border-top: 2px dashed var(--glass-border-dark);">
+                <div style="display:flex; justify-content:space-between; font-weight:900; font-size:16px; margin-bottom: 14px;">
+                    <span>المجموع الكلي:</span>
+                    <span id="cart-total-price">0 ₪</span>
+                </div>
+
+                <div id="dynamic-form-fields">
+                </div>
+
+                <button class="liquid-water-btn" onclick="sendWhatsAppOrder()">
+                    <span>إرسال الطلب عبر الواتساب</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let state = {
+            theme: 'light',
+            cart: [],
+            orderType: 'pickup',
+            currentProduct: {
+                name: '',
+                img: '',
+                basePrice: 45,
+                sizeName: 'عادي',
+                sizePrice: 45,
+                chipsQty: 1,
+                drink: 'كوكاكولا',
+                fantaFlavor: 'برتقال',
+                extraDrinksQty: 0,
+                addons: [],
+                qty: 1
+            }
+        };
+
+        function toggleTheme() {
+            state.theme = state.theme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', state.theme);
+            document.getElementById('btn-theme').innerText = state.theme === 'light' ? 'الوضع المظلم' : 'الوضع الفاتح';
+        }
+
+        function toggleSideMenu() {
+            document.getElementById('side-drawer-overlay').classList.toggle('active');
+        }
+
+        function openWazeDirect(e) {
+            e.preventDefault();
+            window.location.href = "https://waze.com/ul?navigate=yes";
+            setTimeout(() => {
+                window.open("https://waze.com/ul?navigate=yes", "_blank");
+            }, 100);
+        }
+
+        function openProductModal(productName, imgUrl) {
+            state.currentProduct.name = productName;
+            state.currentProduct.img = imgUrl;
+            state.currentProduct.sizePrice = 45;
+            state.currentProduct.sizeName = 'عادي';
+            state.currentProduct.chipsQty = 1;
+            state.currentProduct.qty = 1;
+            state.currentProduct.extraDrinksQty = 0;
+            state.currentProduct.addons = [];
+            
+            document.getElementById('modal-product-title').innerText = state.currentProduct.name;
+            document.getElementById('product-qty').innerText = '1';
+            document.getElementById('chips-qty').innerText = '1';
+            document.getElementById('extra-drink-qty').innerText = '0';
+            
+            // Reset addon chips visual state
+            document.querySelectorAll('.addon-chip').forEach(chip => chip.classList.remove('selected'));
+            
+            selectSize('عادي', 45, 'normal');
+            document.getElementById('modal-product').classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function selectSize(sizeName, price, sizeId) {
+            state.currentProduct.sizeName = sizeName;
+            state.currentProduct.sizePrice = price;
+
+            document.querySelectorAll('.size-option-btn').forEach(btn => btn.classList.remove('selected'));
+            document.getElementById('size-' + sizeId).classList.add('selected');
+
+            calculateModalTotal();
+        }
+
+        function toggleAddon(addonName, el) {
+            el.classList.toggle('selected');
+            const index = state.currentProduct.addons.indexOf(addonName);
+            if (index > -1) {
+                state.currentProduct.addons.splice(index, 1);
+            } else {
+                state.currentProduct.addons.push(addonName);
+            }
+        }
+
+        function updateChipsQty(val) {
+            let current = state.currentProduct.chipsQty + val;
+            if (current < 1) current = 1;
+            state.currentProduct.chipsQty = current;
+            document.getElementById('chips-qty').innerText = current;
+            calculateModalTotal();
+        }
+
+        function selectDrink(drinkName, el) {
+            const fantaWrapper = document.getElementById('fanta-flavors');
+            document.querySelectorAll('.drink-apple-card').forEach(btn => btn.classList.remove('selected'));
+            el.classList.add('selected');
+
+            let finalDrinkName = drinkName;
+            if (drinkName === 'فانتا') {
+                fantaWrapper.classList.add('active');
+                finalDrinkName = `فانتا ${state.currentProduct.fantaFlavor}`;
+            } else {
+                fantaWrapper.classList.remove('active');
+            }
+
+            state.currentProduct.drink = finalDrinkName;
+            document.getElementById('dynamic-extra-drink-name').innerText = finalDrinkName;
+        }
+
+        function selectFantaFlavor(flavorName, el) {
+            document.querySelectorAll('.flavor-chip').forEach(chip => chip.classList.remove('selected'));
+            el.classList.add('selected');
+            state.currentProduct.fantaFlavor = flavorName;
+            
+            const fullName = `فانتا ${flavorName}`;
+            state.currentProduct.drink = fullName;
+            document.getElementById('dynamic-extra-drink-name').innerText = fullName;
+
+            setTimeout(() => {
+                document.getElementById('fanta-flavors').classList.remove('active');
+            }, 200);
+        }
+
+        function updateExtraDrink(val) {
+            let current = state.currentProduct.extraDrinksQty + val;
+            if (current < 0) current = 0;
+            state.currentProduct.extraDrinksQty = current;
+            document.getElementById('extra-drink-qty').innerText = current;
+            calculateModalTotal();
+        }
+
+        function updateQuantity(val) {
+            let current = state.currentProduct.qty + val;
+            if (current < 1) current = 1;
+            state.currentProduct.qty = current;
+            document.getElementById('product-qty').innerText = current;
+            calculateModalTotal();
+        }
+
+        function calculateModalTotal() {
+            const chipsExtraCost = Math.max(0, state.currentProduct.chipsQty - 1) * 1;
+            const unitPrice = state.currentProduct.sizePrice + chipsExtraCost + (state.currentProduct.extraDrinksQty * 8);
+            const total = unitPrice * state.currentProduct.qty;
+            const priceEl = document.getElementById('modal-total-price');
+            priceEl.innerText = total + ' ₪';
+            priceEl.classList.add('pop');
+            setTimeout(() => priceEl.classList.remove('pop'), 300);
+        }
+
+        function addToCartWithFlyEffect(e) {
+            const cartBtn = document.getElementById('header-cart-btn');
+            const cartRect = cartBtn.getBoundingClientRect();
+            const clickX = e.clientX || window.innerWidth / 2;
+            const clickY = e.clientY || window.innerHeight / 2;
+
+            const flyImg = document.createElement('img');
+            flyImg.src = state.currentProduct.img || 'https://images.unsplash.com/photo-1544025162-d76694265947?w=400';
+            flyImg.className = 'flying-product-img';
+            flyImg.style.left = `${clickX - 35}px`;
+            flyImg.style.top = `${clickY - 35}px`;
+
+            document.body.appendChild(flyImg);
+
+            requestAnimationFrame(() => {
+                flyImg.style.left = `${cartRect.left + cartRect.width / 2 - 15}px`;
+                flyImg.style.top = `${cartRect.top + cartRect.height / 2 - 15}px`;
+                flyImg.style.transform = 'scale(0.18) rotate(360deg)';
+                flyImg.style.opacity = '0.4';
+            });
+
+            setTimeout(() => {
+                flyImg.remove();
+                addToCart();
+            }, 800);
+        }
+
+        function addToCart() {
+            const chipsExtraCost = Math.max(0, state.currentProduct.chipsQty - 1) * 1;
+            const unitPrice = state.currentProduct.sizePrice + chipsExtraCost + (state.currentProduct.extraDrinksQty * 8);
+            const itemPrice = unitPrice * state.currentProduct.qty;
+
+            state.cart.push({
+                name: state.currentProduct.name,
+                size: state.currentProduct.sizeName,
+                chipsQty: state.currentProduct.chipsQty,
+                drink: state.currentProduct.drink,
+                extraDrinks: state.currentProduct.extraDrinksQty,
+                addons: [...state.currentProduct.addons],
+                qty: state.currentProduct.qty,
+                price: itemPrice
+            });
+
+            updateCartBadge();
+            closeModal('modal-product');
+        }
+
+        function updateCartBadge() {
+            const badge = document.getElementById('cart-counter');
+            badge.innerText = state.cart.length;
+            badge.classList.add('bounce');
+            setTimeout(() => badge.classList.remove('bounce'), 450);
+        }
+
+        function openCartModal() {
+            renderCart();
+            renderCheckoutFields();
+            document.getElementById('modal-cart').classList.add('active');
+        }
+
+        function setOrderType(type) {
+            state.orderType = type;
+            document.getElementById('tab-pickup').classList.toggle('selected', type === 'pickup');
+            document.getElementById('tab-delivery').classList.toggle('selected', type === 'delivery');
+            
+            const deliveryBanner = document.getElementById('delivery-status-banner');
+            if (type === 'delivery') {
+                deliveryBanner.style.display = 'block';
+                checkDeliveryAvailability();
+            } else {
+                deliveryBanner.style.display = 'none';
+            }
+
+            renderCheckoutFields();
+        }
+
+        function checkDeliveryAvailability() {
+            const now = new Date();
+            const hours = now.getHours();
+            const isAvailable = hours >= 19 && hours < 24;
+
+            const badgeEl = document.getElementById('delivery-badge-el');
+            const textEl = document.getElementById('delivery-status-text');
+
+            if (isAvailable) {
+                badgeEl.className = 'status-badge-container open';
+                textEl.innerText = 'التوصيل متوفر الآن';
+            } else {
+                badgeEl.className = 'status-badge-container closed';
+                textEl.innerText = 'التوصيل غير متوفر حالياً';
+            }
+        }
+
+        function selectArrivalTime(timeVal, el) {
+            document.querySelectorAll('.arrival-capsule').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+            document.getElementById('cust-arrival').value = timeVal;
+        }
+
+        function fetchCurrentLocationForWaze() {
+            const wazeInput = document.getElementById('cust-waze');
+            if (!wazeInput) return;
+
+            if (navigator.geolocation) {
+                wazeInput.placeholder = "جاري تحديد موقعك عبر GPS...";
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        const autoWazeUrl = `https://waze.com/ul?ll=${lat},${lng}&navigate=yes`;
+                        wazeInput.value = autoWazeUrl;
+                        alert('تم جلب موقعك وتوليد رابط الويز بنجاح! 📍');
+                    },
+                    (error) => {
+                        alert('تعذر تحديد موقعك تلقائياً. يرجى السماح بصلاحية الموقع أو لصق الرابط يدوياً.');
+                        wazeInput.placeholder = "رابط موقع الويز أو العنوان";
+                    },
+                    { timeout: 10000, enableHighAccuracy: true }
+                );
+            } else {
+                alert('متصفحك لا يدعم تحديد الموقع الجغرافي.');
+            }
+        }
+
+        function renderCheckoutFields() {
+            const container = document.getElementById('dynamic-form-fields');
+            if (state.orderType === 'pickup') {
+                container.innerHTML = `
+                    <input type="text" id="cust-name" class="form-input" placeholder="الاسم الكامل">
+                    <input type="tel" id="cust-phone" class="form-input" placeholder="رقم الهاتف">
+                    <label style="font-size: 13px; font-weight: 800; display: block; margin-bottom: 8px;">الوقت التقريبي للوصول:</label>
+                    <div class="arrival-capsules-grid">
+                        <div class="arrival-capsule selected" onclick="selectArrivalTime('بالطريق الآن', this)">🚗 بالطريق الآن</div>
+                        <div class="arrival-capsule" onclick="selectArrivalTime('كمان 10 دقائق', this)">⏱️ كمان 10 دقائق</div>
+                        <div class="arrival-capsule" onclick="selectArrivalTime('كمان 20 دقيقة', this)">⏱️ كمان 20 دقيقة</div>
+                        <div class="arrival-capsule" onclick="selectArrivalTime('نصف ساعة', this)">⏱️ نصف ساعة</div>
+                    </div>
+                    <input type="hidden" id="cust-arrival" value="بالطريق الآن">
+                    <input type="text" id="cust-notes" class="form-input" placeholder="ملاحظة إضافية">
+                `;
+            } else {
+                container.innerHTML = `
+                    <input type="text" id="cust-name" class="form-input" placeholder="الاسم الكامل">
+                    <input type="tel" id="cust-phone" class="form-input" placeholder="رقم الهاتف">
+                    <div class="waze-btn-group">
+                        <input type="url" id="cust-waze" class="form-input" placeholder="رابط موقع الويز" style="margin-bottom:0;">
+                        <button type="button" class="header-btn" onclick="fetchCurrentLocationForWaze()" style="background:var(--mex-orange); color:#fff; border:none; white-space:nowrap; padding: 0 14px; border-radius: 16px; font-size:12px;">📍 حدد موقعي</button>
+                    </div>
+                    <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 10px;">اضغط على زر (حدد موقعي) لتعبئة رابط الويز أوتوماتيكياً من هاتفك.</div>
+                `;
+            }
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cart-items-list');
+            container.innerHTML = '';
+            let total = 0;
+
+            if (state.cart.length === 0) {
+                container.innerHTML = `<p style="text-align:center; padding: 25px; color: var(--text-muted); font-weight: 700;">السلة فارغة حالياً</p>`;
+                document.getElementById('cart-total-price').innerText = '0 ₪';
+                return;
+            }
+
+            state.cart.forEach((item, idx) => {
+                total += item.price;
+                
+                let capsulesHTML = `<div class="cart-capsules-wrap">`;
+                capsulesHTML += `<span class="cart-capsule size-capsule">الحجم: ${item.size}</span>`;
+                capsulesHTML += `<span class="cart-capsule">شيبس: ${item.chipsQty}</span>`;
+                capsulesHTML += `<span class="cart-capsule">مشروب: ${item.drink}</span>`;
+                
+                if (item.extraDrinks > 0) {
+                    capsulesHTML += `<span class="cart-capsule" style="background:rgba(255,184,0,0.15); color:var(--mex-yellow);">+${item.extraDrinks} مشروب إضافي</span>`;
+                }
+
+                if (item.addons.length > 0) {
+                    item.addons.forEach(addon => {
+                        capsulesHTML += `<span class="cart-capsule addon-capsule">+ ${addon}</span>`;
+                    });
+                }
+                capsulesHTML += `</div>`;
+
+                container.innerHTML += `
+                    <div class="cart-item-row">
+                        <div style="flex: 1;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span style="font-weight:900; font-size:14px; color: var(--text-main);">${item.name} (×${item.qty})</span>
+                                <span style="font-weight:900; font-size:14px; color: var(--mex-orange);">${item.price} ₪</span>
+                            </div>
+                            ${capsulesHTML}
+                        </div>
+                        <button class="cnt-btn" onclick="removeItem(${idx})" style="width:26px; height:26px; font-size:12px; margin-right: 10px; flex-shrink: 0;">✕</button>
+                    </div>
+                `;
+            });
+
+            document.getElementById('cart-total-price').innerText = total + ' ₪';
+        }
+
+        function removeItem(index) {
+            state.cart.splice(index, 1);
+            updateCartBadge();
+            renderCart();
+        }
+
+        function sendWhatsAppOrder() {
+            if (state.cart.length === 0) {
+                alert('السلة فارغة!');
+                return;
+            }
+
+            const name = document.getElementById('cust-name') ? document.getElementById('cust-name').value : '';
+            const phone = document.getElementById('cust-phone') ? document.getElementById('cust-phone').value : '';
+
+            if (!name || !phone) {
+                alert('يرجى إدخال الحقول المطلوبة (الاسم ورقم الهاتف)');
+                return;
+            }
+
+            let text = `طلب جديد من مكسيكاني ملاذ\n`;
+            text += `طريقة الطلب: ${state.orderType === 'pickup' ? 'استلام من المحل' : 'توصيل للبيت'}\n`;
+            text += `الاسم: ${name}\n`;
+            text += `الهاتف: ${phone}\n`;
+
+            if (state.orderType === 'pickup') {
+                const arrival = document.getElementById('cust-arrival') ? document.getElementById('cust-arrival').value : 'بالطريق الآن';
+                const notes = document.getElementById('cust-notes') ? document.getElementById('cust-notes').value : '';
+                if (arrival) text += `الوقت التقريبي للوصول: ${arrival}\n`;
+                if (notes) text += `ملاحظة: ${notes}\n`;
+            } else {
+                const waze = document.getElementById('cust-waze') ? document.getElementById('cust-waze').value : '';
+                if (waze) text += `موقع الويز: ${waze}\n`;
+            }
+
+            text += `ملاحظة: الكولا مع الشيبس ضمن الوجبة\n`;
+            text += `---------------------------------\n`;
+
+            let grandTotal = 0;
+            state.cart.forEach((item, i) => {
+                grandTotal += item.price;
+                const addonsText = item.addons.length > 0 ? item.addons.join(', ') : 'بدون إضافات أخرى';
+                text += `${i+1}. ${item.name} (${item.size}) - العدد: ${item.qty}\n`;
+                text += `• الشيبس: ${item.chipsQty}\n`;
+                text += `• المشروب الرئيسي: ${item.drink}\n`;
+                text += `• الإضافات: ${addonsText}\n`;
+                if (item.extraDrinks > 0) text += `• مشروبات إضافية: ${item.extraDrinks} (${item.drink})\n`;
+                text += `• السعر: ${item.price} ₪\n\n`;
+            });
+
+            text += `---------------------------------\n`;
+            text += `المجموع الكلي: ${grandTotal} ₪`;
+
+            const phoneNum = "972504681288";
+            window.open(`https://wa.me/${phoneNum}?text=${encodeURIComponent(text)}`, '_blank');
+        }
+    </script>
+</body>
+</html>
